@@ -22,6 +22,9 @@ public class BallPark {
 
     public static void main (String[] argv) throws IOException, InterruptedException {
 
+        // 입력 시간 잴 타이머 (시간안에 투구 or 스윙 안할 시 out count + 1)
+        Thread timer;
+
         // 선수명단 추가 (지명타자2, 수비7, 투수1)
         rotation.add(new Hitter(31, "손아섭", 0.314F)); // 지명타자
         rotation.add(new Hitter(13, "최재훈", 0.479F)); // 지명타자 (포수X)
@@ -58,8 +61,10 @@ public class BallPark {
                 nowHitter.introduce(cur_player % 9 + 1);
 
                 // timer 시작
+                timer = new Thread(new Timer(5));
+                timer.start();
 
-                System.out.print("Swing 하시겠습니까?ㅋ (y/n) :");
+                System.out.println("Swing 하시겠습니까?ㅋ (y/n) :");
                 String answer = br.readLine();
                 boolean swing;
                 while(true) {
@@ -73,12 +78,14 @@ public class BallPark {
                         break;
                     } else {
                         System.out.println("wrong input!");
-                        System.out.print("Swing 하시겠습니까?ㅋ (y/n) :");
+                        System.out.println("Swing 하시겠습니까?ㅋ (y/n) :");
                         answer = br.readLine();
                     }
                 }
 
                 // timer 종료 (이전에 timer 끝날 시, 타이머 스레드에서 우리 스레드를 변형하는 구조)
+                timer.interrupt();
+                timer.join();
 
                 // sleep 1초
                 Thread.sleep(1000);
@@ -162,7 +169,7 @@ public class BallPark {
                         break;
                     } else {
                         System.out.println("wrong input!");
-                        System.out.print("Ball, Strike 중에 어떤것을 던지시겠습니까? (b/s) :");
+                        System.out.println("Ball, Strike 중에 어떤것을 던지시겠습니까? (b/s) :");
                         answer = br.readLine();
                     }
                 }
