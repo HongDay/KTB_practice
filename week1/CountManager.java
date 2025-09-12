@@ -25,7 +25,7 @@ public class CountManager {
         strikeCount = 0;
     }
 
-    public void addOut(){
+    public synchronized void addOut(){
         outCount++;
     }
     public void addBall(){

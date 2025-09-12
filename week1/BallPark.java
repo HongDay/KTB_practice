@@ -47,6 +47,7 @@ public class BallPark {
         System.out.println("\n---------- 미니 야구 게임 시작 -----------");
         System.out.println("@@ 한화이글스 라인업 소개\n");
         for (int i = 0; i < 10; i++){
+            Thread.sleep(200);
             rotation.get(i).introduce(i+1);
         }
 
@@ -60,12 +61,14 @@ public class BallPark {
                 System.out.print("당신이 공격할 차례입니다.\n이번 타자는 -- ");
                 nowHitter.introduce(cur_player % 9 + 1);
 
+                Thread.sleep(1000);
                 // timer 시작
-                timer = new Thread(new Timer(5));
+                timer = new Thread(new Timer(5, current_count));
                 timer.start();
 
                 System.out.println("Swing 하시겠습니까?ㅋ (y/n) :");
                 String answer = br.readLine();
+
                 boolean swing;
                 while(true) {
                     if (answer.equals("y")){
