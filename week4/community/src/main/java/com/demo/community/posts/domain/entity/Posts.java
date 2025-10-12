@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -27,13 +29,54 @@ public class Posts extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users userId;
+    private Users user;
 
     @Column(nullable = false)
     @Builder.Default
     private Boolean includeImage = false;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<PostsImages> postImages = new ArrayList<>();
+
+    public void addImages(List<String> urls) {
+        for (String u : urls) {
+            PostsImages img = PostsImages.builder().imageUrl(u).posts(this).build();
+            this.postImages.add(img);
+        }
+    }
+
+    public List<String> getImages() {
+        return this.postImages.stream()
+                .map(PostsImages::getImageUrl)
+                .collect(Collectors.toList());
+    }
+
+    public void updateImages(List<String> urls) {
+        Set<String> existingUrls = this.postImages.stream()
+                .map(PostsImages::getImageUrl)
+                .collect(Collectors.toSet());
+
+        List<String> toAdd = urls.stream()
+                .filter(url -> !existingUrls.contains(url))
+                .toList();
+
+        List<PostsImages> toRemove = this.postImages.stream()
+                .filter(img -> !urls.contains(img.getImageUrl()))
+                .toList();
+
+        this.postImages.removeAll(toRemove);
+
+        addImages(toAdd);
+    }
+
+    public void updatePost(String title, String content, List<String> urls) {
+        if (title != null) {this.title = title;}
+        if (content != null) {this.content = content;}
+        if (urls != null && !urls.isEmpty()) {
+            this.postImages.clear();
+            updateImages(urls);
+        }
+    }
 
 }
