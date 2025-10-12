@@ -1,5 +1,6 @@
 package com.demo.community.common.controller;
 
+import com.demo.community.common.dto.ApiResponse;
 import com.demo.community.common.service.TestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,22 +36,22 @@ public class PingController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<String> getCheck() {
-        return ResponseEntity.ok("GET response ok");
+    public ResponseEntity<ApiResponse<Void>> getCheck() {
+        return ResponseEntity.ok(new ApiResponse<>("GET response ok", null));
     }
 
     @DeleteMapping("/status")
-    public ResponseEntity<String> deleteCheck() {
-        return ResponseEntity.ok("DELETE response ok");
+    public ResponseEntity<ApiResponse<Void>>  deleteCheck() {
+        return ResponseEntity.ok(new ApiResponse<>("DELETE response ok", null));
     }
 
     @PostMapping("/status")
-    public ResponseEntity<String> postCheck() {
-        return ResponseEntity.ok("POST response ok");
+    public ResponseEntity<ApiResponse<Void>>  postCheck() {
+        return ResponseEntity.ok(new ApiResponse<>("POST response ok", null));
     }
 
     @PutMapping("/status")
-    public ResponseEntity<String> putCheck() {
-        return ResponseEntity.ok("PUT response ok");
+    public ResponseEntity<ApiResponse<Void>>  putCheck() {
+        return ResponseEntity.ok(new ApiResponse<>("PUT response ok", null));
     }
 }

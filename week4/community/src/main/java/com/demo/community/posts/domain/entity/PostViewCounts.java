@@ -14,7 +14,7 @@ public class PostViewCounts {
     @Id
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
     private Posts posts;
