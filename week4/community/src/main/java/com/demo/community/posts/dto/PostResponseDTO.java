@@ -53,6 +53,34 @@ public class PostResponseDTO {
     @NoArgsConstructor
     @Getter
     @Setter
+    public static class Count {
+        private int like;
+        private int visit;
+        private int reply;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class PostDetailResponse {
+        private Long postId;
+        private String title;
+        private String content;
+        private List<String> images;
+        private Count count;
+        private String writer;
+        private String writerImage;
+        private Boolean likePressed;
+        private Boolean authorization;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
     public static class PostListSliceResponse {
         private List<PostListResponse> items;
         private boolean hasNext;

@@ -69,6 +69,17 @@ public class PostService {
     }
 
     @Transactional
+    public PostResponseDTO.PostDetailResponse detailPost(Long postId, Long userId){
+        Posts post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("post not found"));
+
+        Boolean authorization = post.getUser().getId().equals(userId);
+
+
+
+    }
+
+    @Transactional
     public PostResponseDTO.PostUpdateResponse updatePost(PostRequestDTO.PostUpdateRequest request, Long postId, Long userId) {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("user not found"));

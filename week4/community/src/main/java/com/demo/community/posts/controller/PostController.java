@@ -53,7 +53,16 @@ public class PostController {
     }
 
     // 글 상세 조회
-    // @GetMapping("/{postId}")
+    @GetMapping("/{postId}")
+    public ResponseEntity<ApiResponse<PostResponseDTO.PostDetailResponse>> detailPost(
+            @PathVariable("postId") Long postId
+    ){
+        Long userId = 1L;
+
+        PostResponseDTO.PostDetailResponse result = postService.detailPost(postId, userId);
+
+        return ResponseEntity.ok(new ApiResponse<>("post detail successed", result));
+    }
 
     // 글 삭제
     @DeleteMapping("/{postId}")
